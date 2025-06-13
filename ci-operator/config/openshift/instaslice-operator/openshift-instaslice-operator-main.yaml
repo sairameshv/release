@@ -146,10 +146,10 @@ tests:
         # (TODO) Remove the following piece of code along with the above binary downloading
         # when the Makefile is modified to use vendored binaries
         echo "   create manifests"
-        ${TOOLS_DIR}/controller-gen rbac:roleName=manager-role crd webhook paths="./..." output:crd:artifacts:config=config/crd/bases
+        controller-gen rbac:roleName=manager-role crd webhook paths="./..." output:crd:artifacts:config=config/crd/bases
         rm -rf bundle-ocp/manifests && mkdir bundle-ocp/manifests
         export IMG=pipeline:instaslice-controller IMG_DMST=pipeline:instaslice-daemonset
-        ${TOOLS_DIR}/kustomize build --load-restrictor LoadRestrictionsNone config/manifests-ocp | sed -e "s|containerImage: .*|containerImage: $(IMG)|g" |sed -e "s|image:.*instaslice-rhel9-operator.*|image: $(IMG)|g" | sed -e "s|value: .*instaslice-daemonset-rhel9.*|value: $(IMG_DMST)|g" > bundle-ocp/manifests/kustomize.yaml ;\
+        kustomize build --load-restrictor LoadRestrictionsNone config/manifests-ocp | sed -e "s|containerImage: .*|containerImage: $(IMG)|g" |sed -e "s|image:.*instaslice-rhel9-operator.*|image: $(IMG)|g" | sed -e "s|value: .*instaslice-daemonset-rhel9.*|value: $(IMG_DMST)|g" > bundle-ocp/manifests/kustomize.yaml ;\
         echo "   deploy instaslice-operator"
         oc apply -f bundle-ocp/manifests/kustomize.yaml || true
 

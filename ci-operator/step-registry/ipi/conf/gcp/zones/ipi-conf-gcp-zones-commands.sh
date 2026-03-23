@@ -7,7 +7,7 @@ set -o pipefail
 CONFIG="${SHARED_DIR}/install-config.yaml"
 PATCH="${SHARED_DIR}/zones.yaml.patch"
 
-GCP_REGION="${LEASED_RESOURCE}"
+GCP_REGION="${GCP_REGION_OVERRIDE:-${LEASED_RESOURCE}}"
 ZONES_COUNT=3
 
 echo "$(date -u --rfc-3339=seconds) - INFO: ZONES_EXCLUSION_PATTERN '${ZONES_EXCLUSION_PATTERN}'"

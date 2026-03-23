@@ -81,6 +81,12 @@ ref:
     default: ""
     documentation: |-
       The base domain.
+  - name: GCP_REGION_OVERRIDE
+    default: ""
+    documentation: |-
+      Override the GCP region. When set, this value replaces the leased region
+      for cluster provisioning. Useful for machine types with limited regional
+      availability (e.g., H100 GPUs in us-east4).
   documentation: >-
     This step configures an install-config.yaml file to depoloy to the GCP CI project.
     An existing install-config.yaml file should already exist in the shared directory.

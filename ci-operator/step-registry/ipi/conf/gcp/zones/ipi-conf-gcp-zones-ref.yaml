@@ -32,5 +32,11 @@ ref:
     default: ""
     documentation: |-
       Set zones for control-plane nodes according to the node type.
+  - name: GCP_REGION_OVERRIDE
+    default: ""
+    documentation: |-
+      Override the GCP region. When set, this value replaces the leased region
+      for zone selection. Useful for machine types with limited regional
+      availability (e.g., H100 GPUs in us-east4).
   documentation: |-
     The IPI configure step updates install-config.yaml with the controlPlane & compute zones settings according to the specified zone(s), or machine type(s).

@@ -1,0 +1,39 @@
+ref:
+  as: ipi-conf-gcp-gpu-accelerator
+  from_image:
+    namespace: ocp
+    name: "4.18"
+    tag: upi-installer
+  commands: ipi-conf-gcp-gpu-accelerator-commands.sh
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+  env:
+  - name: COMPUTE_GPU_TYPE
+    default: ""
+    documentation: |-
+      The GPU accelerator type to attach to compute nodes (e.g., nvidia-tesla-t4, nvidia-tesla-v100).
+      Leave empty to skip GPU configuration. Requires COMPUTE_GPU_COUNT to be set.
+  - name: COMPUTE_GPU_COUNT
+    default: ""
+    documentation: |-
+      The number of GPU accelerators to attach to each compute node (e.g., 1, 2, 4).
+      Leave empty to skip GPU configuration. Requires COMPUTE_GPU_TYPE to be set.
+  - name: CONTROL_PLANE_GPU_TYPE
+    default: ""
+    documentation: |-
+      The GPU accelerator type to attach to control plane nodes (rare use case).
+      Leave empty to skip GPU configuration on control plane.
+  - name: CONTROL_PLANE_GPU_COUNT
+    default: ""
+    documentation: |-
+      The number of GPU accelerators to attach to each control plane node.
+      Leave empty to skip GPU configuration on control plane.
+  documentation: |-
+    Configures GPU accelerators for GCP compute and/or control plane nodes.
+    This step adds the accelerators section to the install-config.yaml.
+
+    Note: GPU instances require onHostMaintenance to be set to "Terminate".
+    Use the ipi-conf-gcp-confidential-computing step to set this, or ensure
+    COMPUTE_ON_HOST_MAINTENANCE=Terminate is set in your job configuration.

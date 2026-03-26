@@ -1,0 +1,10 @@
+{
+	"path": "ipi/conf/gcp/gpu-accelerator/ipi-conf-gcp-gpu-accelerator-ref.yaml",
+	"owners": {
+		"approvers": [
+			"patrickdillon",
+			"jianlinliu",
+			"yunjiang29"
+		]
+	}
+}

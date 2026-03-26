@@ -34,6 +34,8 @@ tests:
   steps:
     cluster_profile: gcp
     env:
+      COMPUTE_GPU_COUNT: "1"
+      COMPUTE_GPU_TYPE: nvidia-tesla-t4
       COMPUTE_NODE_REPLICAS: "1"
       COMPUTE_NODE_TYPE: n1-standard-4
       COMPUTE_ON_HOST_MAINTENANCE: Terminate
@@ -44,6 +46,7 @@ tests:
     pre:
     - chain: ipi-conf-gcp
     - ref: ipi-conf-gcp-confidential-computing
+    - ref: ipi-conf-gcp-gpu-accelerator
     - chain: ipi-install
     - ref: nvidia-nfd-operator-install
     - ref: nvidia-gpu-operator-install
@@ -71,11 +74,10 @@ tests:
 
         mkdir -p "${ARTIFACT_DIR}/nvidia-dra"
 
-        echo "Running NVIDIA DRA tests with [Feature:NVIDIA-DRA] tag..."
-        openshift-tests run openshift/conformance/parallel --dry-run --provider=none | \
-          grep -E "\[Feature:NVIDIA-DRA\]" | \
-          openshift-tests run -o "${ARTIFACT_DIR}/nvidia-dra/test-output.log" \
-            --junit-dir="${ARTIFACT_DIR}/nvidia-dra/junit" -f -
+        echo "Running NVIDIA DRA tests with [Suite:openshift/nvidia-dra] tag..."
+        openshift-tests run openshift/nvidia-dra \
+          -o "${ARTIFACT_DIR}/nvidia-dra/test-output.log" \
+          --junit-dir="${ARTIFACT_DIR}/nvidia-dra/junit"
       from: tests
       resources:
         requests:
